@@ -30,6 +30,33 @@ app.get('/sales/contacts/view', (req, res) => {
     })
 })
 
+//Delete para borrar información
+app.delete('/sales/contacts/:cid', (req, res) => {
+    const { cid } = req.params
+    Contacto.findByIdAndRemove(cid).exec().then(
+        contacto => res.send({ message: "Contacto borrado" })
+    ).catch(err => res.send(err))
+})
+
+
+//Patch para actualizar la información
+app.patch('/sales/contacts/:cid', (req, res) => {
+    const { cid } = req.params
+    Contacto.findByIdAndUpdate(cid, req.body, (err, contacto) => {
+        Contacto.findByIdAndUpdate(cid).exec()
+            .then(contact1 => res.send(contact1))
+
+    }).catch(err => res.send(err))
+})
+
+//find para los queries
+// sales/contacts/name=contactName
+app.get('/sales/find', (req, res) => {
+    const { nombre } = req.query
+    Contacto.find({ name: nombre }).exec()
+        .then(contactos => res.send(contactos))
+        .catch(err => res.send(err))
+})
 
 app.listen(3000, () => {
     console.log('Server on 3000')
