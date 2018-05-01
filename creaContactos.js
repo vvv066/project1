@@ -1,4 +1,4 @@
-const URL = 'http://localhost:3000/sales/contacts/create'
+const URL = 'http://localhost:3000/store/items'
 const request = require('request')
 
 const creaContactos = (mail, name, lastName, number) => {
