@@ -5,7 +5,7 @@ import Saludo from './components/Saludo'
 import Despedida from './components/Despedida'
 import Navbar from './components/Navbar'
 import Card from './components/Card'
-
+import axios from 'axios'
 
 class App extends Component {
     constructor() {
@@ -13,32 +13,49 @@ class App extends Component {
         this.state = {
             saludo: '¡hola desde DevF!',
             despedida: 'Adios DevF',
-            cards: [
-                {
-                    nombre:"Fernando Reyes",
-                    bio:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-                },
-                {
-                    nombre:"Daniel Reyes",
-                    bio:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-                },
-                {
-                    nombre:"Daniela Estrada",
-                    bio:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-                }
-            ]
+            cards: []
+        }
+    }
+
+    componentWillMount(){
+        
+        axios.get('http://pokeapi.co/api/v2/pokemon/1')
+        .then(response =>{
+            console.log(response)
+                this.setState({
+                cards:[
+                    {
+                        nombre: response.data.name,
+                        bio: response.data.weight,
+                        img: response.data.sprites.front_default
+                    }
+                ]
+            })
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+
+    }
+
+    updateCard(){
+        if(this.state.cards.length>0){
+            const cards = this.state.cards.map((element,index,array)=>{
+                return <Card nombre={element.nombre} bio={element.bio} img={element.img}/> 
+            })
+            return cards
+        }else{
+            return <p>Cargando...</p>
         }
     }
 
     render() {
-        const cards = this.state.cards.map((element,index,array)=>{
-            return <Card nombre={element.nombre} bio={element.bio}/> 
-        })
+        
         return (
             <div className="App" >
                 <Navbar />
             <div className="row">
-                {cards}                
+                {this.updateCard()}                
             </div>
             </div >
 

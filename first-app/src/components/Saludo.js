@@ -7,11 +7,10 @@ class Saludo extends Component {
 
 
     render() {
-        return ( <
-            div >
-            <
-            h3 > { this.props.text } < /h3>   < /
-            div >
+        return ( 
+            <div >
+            <h3> { this.props.text } </h3>   
+            </div >
         )
     }
 
