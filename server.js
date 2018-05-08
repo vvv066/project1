@@ -36,15 +36,12 @@ const generic = [{
     }
 ]
 
-
-
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
     res.send('Bot de cinta roja')
 })
-
 
 //Es para que facebook valide el verifyToken
 app.get('/webhook', (req, res) => {
